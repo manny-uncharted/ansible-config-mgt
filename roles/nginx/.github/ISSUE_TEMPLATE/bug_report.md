@@ -13,7 +13,7 @@ A clear and concise description of what the bug is.
 
 Steps to reproduce the behavior:
 
-1. Deploy NGINX collection using playbook.yml
+1. Deploy NGINX role using playbook.yml
 2. View output/logs/configuration on '...'
 3. See error
 
@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 
 ### Your environment
 
-- Version of the NGINX collection or specific commit
+- Version of the NGINX role or specific commit
 - Version of Ansible
 - Version of Jinja2 (if you are using any templating capability)
 - Target deployment platform

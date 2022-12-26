@@ -4,8 +4,6 @@
 *.key
 *~
 \#*
-!molecule.crt
-!molecule.key
 
 # OS Specific #
 ###############
@@ -17,10 +15,6 @@ Thumbs.db
 ####################
 .cache
 *.retry
-
-# Ansible collection specific #
-###############################
-nginxinc-nginx_core-*.tar.gz
 
 # Python specific #
 ###################

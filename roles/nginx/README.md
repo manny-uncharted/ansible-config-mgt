@@ -1,127 +1,213 @@
-**Note:** Version 0.7.1 is only available on Ansible Galaxy and only includes a few minor documentation updates over 0.7.0. If you are downloading the latest release from GitHub, these changes are incorporated to in the 0.7.0 release.
-
-[![Ansible Galaxy](https://img.shields.io/badge/galaxy-nginxinc.nginx__core-5bbdbf.svg)](https://galaxy.ansible.com/nginxinc/nginx_core)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-nginxinc.nginx-5bbdbf.svg)](https://galaxy.ansible.com/nginxinc/nginx)
+[![Molecule CI/CD](https://github.com/nginxinc/ansible-role-nginx/workflows/Molecule%20CI/CD/badge.svg)](https://github.com/nginxinc/ansible-role-nginx/actions)
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-# 👾 *Help make the NGINX Ansible collection better by participating in our [survey](https://forms.office.com/Pages/ResponsePage.aspx?id=L_093Ttq0UCb4L-DJ9gcUKLQ7uTJaE1PitM_37KR881UM0NCWkY5UlE5MUYyWU1aTUcxV0NRUllJSC4u)!* 👾
+# 👾 *Help make the NGINX Ansible role better by participating in our [survey](https://forms.office.com/Pages/ResponsePage.aspx?id=L_093Ttq0UCb4L-DJ9gcUKLQ7uTJaE1PitM_37KR881UM0NCWkY5UlE5MUYyWU1aTUcxV0NRUllJSC4u)!* 👾
 
-# Ansible NGINX Collection
+# Ansible NGINX Role
 
-The Ansible NGINX collection includes a variety of NGINX Ansible roles to help automate the installation and configuration of NGINX. This collection is maintained by NGINX.
+This role installs NGINX Open Source, NGINX Plus, or the NGINX Amplify agent on your target host.
 
-**Note:** This collection is still in active development. There may be unidentified issues as development continues.
-
-## Included Content
-
-The current stable release (`0.7.0`) of the Ansible NGINX collection includes the following roles:
-
-| Name | Description | Version |
-| ---- | ----------- | ------- |
-| [nginxinc.nginx](https://github.com/nginxinc/ansible-role-nginx) | Install NGINX | 0.23.2 |
-| [nginxinc.nginx_config](https://github.com/nginxinc/ansible-role-nginx-config) | Configure NGINX | 0.5.2 |
-| [nginxinc.nginx_app_protect](https://github.com/nginxinc/ansible-role-nginx-app-protect) | Install and configure NGINX App Protect | 0.8.1 |
+**Note:** This role is still in active development. There may be unidentified issues and the role variables may change as development continues.
 
 ## Requirements
 
 ### NGINX Plus (Optional)
 
-If you wish to install NGINX Plus using this collection, you will need to obtain an NGINX Plus license beforehand. *You do not need to do anything beforehand if you want to install NGINX OSS.*
-
-### NGINX App Protect (Optional)
-
-If you wish to install NGINX App Protect WAF or NGINX App Protect DoS using this collection, you will need to obtain the corresponding NGINX App Protect license beforehand.
+If you wish to install NGINX Plus using this role, you will need to obtain an NGINX Plus license beforehand. *You do not need to do anything beforehand if you want to install NGINX OSS.*
 
 ### Ansible
 
-* This collection is developed and tested with [maintained](https://docs.ansible.com/ansible/devel/reference_appendices/release_and_maintenance.html) versions of Ansible core (above `2.12`).
+* This role is developed and tested with [maintained](https://docs.ansible.com/ansible/devel/reference_appendices/release_and_maintenance.html) versions of Ansible core (above `2.12`).
 * When using Ansible core, you will also need to install the following collections:
 
-     ```yaml
+    ```yaml
     ---
     collections:
       - name: ansible.posix
         version: 1.4.0
-      - name: community.crypto
-        version: 2.5.0
       - name: community.general
         version: 5.5.0
-      - name: community.docker  # Only required if you plan to use Molecule (see below)
+      - name: community.crypto # Only required if you plan to install NGINX Plus
+        version: 2.5.0
+      - name: community.docker # Only required if you plan to use Molecule (see below)
         version: 3.1.0
     ```
 
     **Note:** You can alternatively install the Ansible community distribution (what is known as the "old" Ansible) if you don't want to manage individual collections.
-* You will need to run this collection as a root user using Ansible's `become` parameter. Make sure you have set up the appropriate permissions on your target hosts.
+* You will need to run this role as a root user using Ansible's `become` parameter. Make sure you have set up the appropriate permissions on your target hosts.
 * Instructions on how to install Ansible can be found in the [Ansible website](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#upgrading-ansible-from-version-2-9-and-older-to-version-2-10-or-later).
 
 ### Jinja2
 
-* This collection uses Jinja2 templates. Ansible core installs Jinja2 by default, but depending on your install and/or upgrade path, you might be running an outdated version of Jinja2. The minimum version of Jinja2 required for the collection to properly function is `2.11`.
+* This role uses Jinja2 templates. Ansible core installs Jinja2 by default, but depending on your install and/or upgrade path, you might be running an outdated version of Jinja2. The minimum version of Jinja2 required for the role to properly function is `2.11`.
 * Instructions on how to install Jinja2 can be found in the [Jinja2 website](https://jinja.palletsprojects.com/en/2.11.x/intro/#installation).
 
 ### Molecule (Optional)
 
-* Molecule is used to test the various roles included in the collection. The recommended version of Molecule to test this role is `3.3`.
-* At the moment, there are no end to end integration tests. You will need to change directory into each role's respective directory.
+* Molecule is used to test the various functionalities of the role. The recommended version of Molecule to test this role is `3.3`.
 * Instructions on how to install Molecule can be found in the [Molecule website](https://molecule.readthedocs.io/en/latest/installation.html). *You will also need to install the Molecule Docker driver.*
-* To run the NGINX Plus and/or NGINX App Protect Molecule tests, you must copy your corresponding license to the respective role's [`files/license`](https://github.com/nginxinc/ansible-role-nginx/blob/main/files/license/) folder.
+* To run the NGINX Plus Molecule tests, you must copy your NGINX Plus license to the role's [`files/license`](https://github.com/nginxinc/ansible-role-nginx/blob/main/files/license/) folder.
 
-You can alternatively add your NGINX certificate and key to the local environment. Run the following commands to export these files as base64-encoded variables and execute the Molecule tests:
+You can alternatively add your NGINX Plus repository certificate and key to the local environment. Run the following commands to export these files as base64-encoded variables and execute the Molecule tests:
 
 ```bash
 export NGINX_CRT=$( cat <path to your certificate file> | base64 )
 export NGINX_KEY=$( cat <path to your key file> | base64 )
-molecule test --all
+molecule test -s plus
 ```
 
 ## Installation
 
 ### Ansible Galaxy
 
-Use `ansible-galaxy collection install nginxinc.nginx_core` to install the latest stable release of the collection on your system.
-
-You can also include the collection in a `requirements.yml` file and install it via `ansible-galaxy collection install -r requirements.yml`, using the format:
-
-```yaml
----
-collections:
-  - name: nginxinc.nginx_core
-    version: 0.7.0
-```
+Use `ansible-galaxy install nginxinc.nginx` to install the latest stable release of the role on your system. Alternatively, if you have already installed the role, use `ansible-galaxy install -f nginxinc.nginx` to update the role to the latest release.
 
 ### Git
 
-Use `git clone https://github.com/nginxinc/ansible-collection-nginx.git` to pull the latest edge commit of the collection from GitHub.
+Use `git clone https://github.com/nginxinc/ansible-role-nginx.git` to pull the latest edge commit of the role from GitHub.
 
-## Usage
+## Platforms
 
-Sample playbooks for each use case covered by this collection can be found in the [`playbooks/`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/playbooks/) folder in the following files:
+The NGINX Ansible role supports all platforms supported by [NGINX Open Source](https://nginx.org/en/linux_packages.html), [NGINX Plus](https://docs.nginx.com/nginx/technical-specs/), and the [NGINX Amplify agent](https://github.com/nginxinc/nginx-amplify-doc/blob/master/amplify-faq.md#21-what-operating-systems-are-supported):
+
+### NGINX Open Source
+
+```yaml
+Alpine:
+  - 3.13
+  - 3.14
+  - 3.15
+  - 3.16
+Amazon Linux:
+  - 2
+CentOS:
+  - 7.4+
+Debian:
+  - buster (10)
+  - bullseye (11)
+Red Hat:
+  - 7.4+
+  - 8
+  - 9
+SUSE/SLES:
+  - 12
+  - 15
+Ubuntu:
+  - bionic (18.04)
+  - focal (20.04)
+  - impish (21.10)
+  - jammy (22.04)
+```
+
+### NGINX Plus
+
+```yaml
+Alpine:
+  - 3.13
+  - 3.14
+  - 3.15
+  - 3.16
+Amazon Linux 2:
+  - any
+CentOS:
+  - 7.4+
+Debian:
+  - buster (10)
+  - bullseye (11)
+FreeBSD:
+  - 12.1+
+  - 13
+Oracle Linux:
+  - 7.4+
+Red Hat:
+  - 7.4+
+  - 8
+  - 9
+SUSE/SLES:
+  - 12
+  - 15
+Ubuntu:
+  - bionic (18.04)
+  - focal (20.04)
+  - jammy (22.04)
+```
+
+### NGINX Amplify Agent
+
+```yaml
+Amazon Linux 2:
+  - any
+Debian:
+  - buster (10)
+  - bullseye (11)
+Red Hat:
+  - 8
+Ubuntu:
+  - bionic
+  - focal
+```
+
+**Note:** You can also use this role to compile NGINX Open Source from source, install NGINX Open Source on compatible yet unsupported platforms, or install NGINX Open Source on BSD systems at your own risk.
+
+## Role Variables
+
+This role has multiple variables. The descriptions and defaults for all these variables can be found in the **[`defaults/main/`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/)** folder in the following files:
 
 | Name | Description |
 | ---- | ----------- |
-| **[`deploy-nginx.yml`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/playbooks/deploy-nginx.yml)** | Install NGINX |
-| **[`deploy-nginx-plus.yml`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/playbooks/deploy-nginx-plus.yml)** | Install NGINX Plus |
-| **[`deploy-nginx-app-protect.yml`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/playbooks/deploy-nginx-app-protect.yml)** | Install NGINX App Protect WAF/DoS |
-| **[`deploy-nginx-plus-app-protect.yml`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/playbooks/deploy-nginx-plus-app-protect.yml)** | Install NGINX Plus and NGINX App Protect WAF |
-| **[`deploy-nginx-web-server.yml`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/playbooks/deploy-nginx-web-server.yml)** | Install NGINX and configure a simple web server |
-| **[`deploy-nginx-web-server-proxy.yml`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/playbooks/deploy-nginx-web-server-proxy.yml)** | Install NGINX and configure a simple reverse proxy in front of two web servers |
-| **[`deploy-nginx-plus-app-protect-web-server-proxy.yml`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/playbooks/deploy-nginx-plus-app-protect-web-server-proxy.yml)** | Install NGINX Plus and NGINX App Protect and configure a simple reverse proxy in front of two web servers protected by NGINX App Protect WAF/DoS |
+| **[`main.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/main.yml)** | NGINX installation variables |
+| **[`amplify.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/amplify.yml)** | NGINX Amplify agent installation variables |
+| **[`bsd.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/bsd.yml)** | BSD installation variables |
+| **[`logrotate.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/logrotate.yml)** | Logrotate configuration variables |
+| **[`selinux.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/selinux.yml)** | SELinux configuration variables |
+| **[`systemd.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/systemd.yml)** | Systemd configuration variables |
 
-## Development
+Similarly, descriptions and defaults for preset variables can be found in the **[`vars/`](https://github.com/nginxinc/ansible-role-nginx/blob/main/vars/)** folder in the following files:
 
-Currently, all the NGINX roles included in this collection (found in the [`roles/`](https://github.com/nginxinc/ansible-collection-nginx/blob/main/roles/) folder) are Git submodules, and work on the roles themselves should take place in the corresponding upstream role repository.
+| Name | Description |
+| ---- | ----------- |
+| **[`main.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/vars/main.yml)** | List of supported NGINX platforms, modules, and Linux installation variables |
 
-To update the roles included in this collection to their latest version, run `git submodule update --recursive --remote`.
+## Example Playbooks
+
+Working functional playbook examples can be found in the **[`molecule/`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/)** folder in the following files:
+
+| Name | Description |
+| ---- | ----------- |
+| **[`default/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/default/converge.yml)** | Install a specific version of NGINX and set up logrotate |
+| **[`downgrade/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/downgrade/converge.yml)** | Downgrade to a specific version of NGINX |
+| **[`downgrade_plus/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/downgrade_plus/converge.yml)** | Downgrade to a specific version of NGINX Plus |
+| **[`module/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/module/converge.yml)** | Install various NGINX supported modules |
+| **[`plus/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/plus/converge.yml)** | Install NGINX Plus and various NGINX Plus supported modules |
+| **[`source/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/source/converge.yml)** | Install NGINX from source |
+| **[`uninstall/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/uninstall/converge.yml)** | Uninstall NGINX |
+| **[`uninstall_plus/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/uninstall_plus/converge.yml)** | Uninstall NGINX Plus |
+| **[`upgrade/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/upgrade/converge.yml)** | Upgrade NGINX |
+| **[`upgrade_plus/converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/upgrade_plus/converge.yml)** | Upgrade NGINX Plus |
+
+Do note that if you install this repository via Ansible Galaxy, you will have to replace the role variable in the sample playbooks from `ansible-role-nginx` to `nginxinc.nginx`.
 
 ## Other NGINX Ansible Collections and Roles
+
+You can find the Ansible NGINX Core collection of roles to install and configure NGINX Open Source, NGINX Plus, and NGINX App Protect [here](https://github.com/nginxinc/ansible-collection-nginx).
+
+You can find the Ansible NGINX configuration role to configure NGINX [here](https://github.com/nginxinc/ansible-role-nginx-config).
+
+You can find the Ansible NGINX App Protect role to install and configure NGINX App Protect WAF and NGINX App Protect DoS [here](https://github.com/nginxinc/ansible-role-nginx-app-protect).
 
 You can find the Ansible NGINX Unit role to install NGINX Unit [here](https://github.com/nginxinc/ansible-role-nginx-unit).
 
 ## License
 
-[Apache License, Version 2.0](https://github.com/nginxinc/ansible-collection-nginx/blob/main/LICENSE)
+[Apache License, Version 2.0](https://github.com/nginxinc/ansible-role-nginx/blob/main/LICENSE)
 
 ## Author Information
 
 [Alessandro Fael Garcia](https://github.com/alessfg)
 
-&copy; [F5, Inc.](https://www.f5.com/) 2020 - 2022
+[Grzegorz Dzien](https://github.com/gdzien)
+
+[Tom Gamull](https://github.com/magicalyak)
+
+&copy; [F5 Networks, Inc.](https://www.f5.com/) 2018 - 2022
