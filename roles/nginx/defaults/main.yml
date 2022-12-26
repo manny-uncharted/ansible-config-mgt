@@ -2,7 +2,13 @@
 # Enable NGINX and NGINX modules.
 # Variables for these options can be found below.
 # Default is true.
-nginx_enable: true
+nginx_enable: false
+
+# Enable Nginx as a loadbalancer
+enable_nginx_lb: false
+
+# Variable to check if load balancer is required
+load_balancer_is_required: false
 
 # Print NGINX configuration file to terminal after executing playbook.
 nginx_debug_output: false
