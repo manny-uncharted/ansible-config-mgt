@@ -5,10 +5,12 @@ pipeline {
         string(name: 'inventory', defaultValue: 'dev', description: 'This is the inventory file for the environment to deploy configuration')
     }
 
-    stage('Clean up') {
-        steps {
-            script {
-                sh 'echo "Cleaning up Stage"'
+    stages {
+        stage('Clean up') {
+            steps {
+                script {
+                    sh 'echo "Cleaning up Stage"'
+                }
             }
         }
     }
