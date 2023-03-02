@@ -45,9 +45,7 @@ pipeline {
         stage('Final Clean Up') {
             steps {
                 steps {
-                    dir("${WORKSPACE}") {
-                        deleteDir()
-                    }
+                    cleaanWs()
                 }
             }
         }
