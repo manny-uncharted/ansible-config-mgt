@@ -44,9 +44,8 @@ pipeline {
 
         stage('Final Clean Up') {
             steps {
-                steps {
-                    cleaanWs()
-                }
+                cleaanWs()
+                
             }
         }
     }
