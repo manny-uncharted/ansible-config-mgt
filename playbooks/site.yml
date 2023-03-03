@@ -1,19 +1,20 @@
 ---
-- name: Include dynamic variables
-  hosts: all
-  tasks: 
-    - import_playbook: ../static-assignments/common-del.yml
-    - include: ../dynamic-assignments/env-vars.yml
-  tags:
-    - always
+- hosts: db
+- name: database assignment
+  ansible.builtin.import_playbook: ../static-assignments/database.yml
 
-- name: Webserver assignment
-  hosts: webservers
-  tasks:
-    - import_playbook: ../static-assignments/uat-webservers.yml
+- hosts: nginx
+- name: nginx assignment
+  ansible.builtin.import_playbook: ../static-assignments/nginx.yml
 
-- name: Loadbalancers assignment
-  hosts: lb
-  tasks:
-    - import_playbook: ../static-assignments/loadbalancers.yml
-    when: load_balancer_is_required
+# - hosts: artifactory
+# - name: artifactory assignment
+#   ansible.builtin.import_playbook: ../static-assignments/artifactory.yml
+
+# - hosts: sonar
+# - name: sonar assignment
+#   ansible.builtin.import_playbook: ../static-assignments/sonar.yml
+
+# - hosts: todo
+# - name: Deploy the todo application
+#   ansible.builtin.import_playbook: ../static-assignments/deployment.yml
