@@ -1,7 +1,0 @@
----
-
-- hosts: db
-  name: Mysql environment variables
-  vars:
-    mysql_root_password: password
-    
