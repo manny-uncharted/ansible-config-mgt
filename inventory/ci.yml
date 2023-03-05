@@ -8,4 +8,4 @@
 
 
 [artifactory]
-172.31.21.6 ansible_ssh_user='ubuntu'
+172.31.23.255 ansible_ssh_user='ec2-user'
