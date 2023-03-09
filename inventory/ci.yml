@@ -1,11 +1,14 @@
 [jenkins]
-
+172.31.22.162
 
 [nginx]
 172.31.22.51 ansible_ssh_user='ec2-user'
 
-[sonarqube]
+[sonar]
+172.31.21.108 ansible_ssh_user='ubuntu'
 
+[db]
+172.31.31.234 ansible_ssh_user='ubuntu'
 
 [artifactory]
 172.31.23.255 ansible_ssh_user='ec2-user'
